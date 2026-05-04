@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 ReachInbox CLI — full programmatic access to ReachInbox via the self-hosted proxy.
 All commands proxy through REACHINBOX_PROXY_URL (default: https://reachinbox.luxeillum.com).
@@ -665,7 +666,7 @@ def main():
             "unread-count": cmd_inbox_unread,
             "search": cmd_inbox_search,
         },
-        "tags": {"list": cmd_tag_list},
+        "tags": cmd_tag_list,
         "webhooks": {
             "list": cmd_webhook_list,
             "subscribe": cmd_webhook_subscribe,
@@ -679,8 +680,9 @@ def main():
     }
 
     cmd = dispatch.get(args.command)
+    action = getattr(args, 'action', None)
     if isinstance(cmd, dict):
-        cmd = cmd.get(args.action)
+        cmd = cmd.get(action)
     if cmd:
         cmd(args)
     else:
